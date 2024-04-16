@@ -4,6 +4,7 @@ pragma solidity ^0.8.21;
 contract SocialMedia {
     //**Custom Errors */
     error SocialMedia__UserAuthorisationFailed();
+    error SocialMedia__UserAlreadyExists();
     error SocialMedia__PostIdDoesNotExist();
     error SocialMedia__NotEnoughETHToSend();
 
@@ -45,7 +46,7 @@ contract SocialMedia {
     event CommentCreated(uint256 indexed postId, uint256 indexed commentId, address indexed user);
 
     modifier isRegisteredUser() {
-        if (s_users[msg.sender].userAddress != address(0)) {
+        if (s_users[msg.sender].userAddress == address(0)) {
             revert SocialMedia__UserAuthorisationFailed();
         }
         _;
@@ -58,7 +59,14 @@ contract SocialMedia {
         _;
     }
 
-    function registerUser(string memory userName) external {
+    modifier isUserExist() {
+        if (s_users[msg.sender].userAddress != address(0)) {
+            revert SocialMedia__UserAlreadyExists();
+        }
+        _;
+    }
+
+    function registerUser(string memory userName) external isUserExist {
         UserDetails memory newUser = UserDetails(userName, msg.sender, block.timestamp);
         s_users[msg.sender] = newUser;
 
