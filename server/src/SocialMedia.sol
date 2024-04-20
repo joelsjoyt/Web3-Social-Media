@@ -53,7 +53,7 @@ contract SocialMedia {
     }
 
     modifier isPostExists(uint256 postId) {
-        if (s_posts[postId].postId != postId) {
+        if (s_posts[postId].postAuthorAddress == address(0)) {
             revert SocialMedia__PostIdDoesNotExist();
         }
         _;
