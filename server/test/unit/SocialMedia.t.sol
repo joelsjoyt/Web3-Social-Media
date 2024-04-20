@@ -172,5 +172,23 @@ contract SocialMediaTests is Test {
         assertEq(socialMedia.getPostCount(), 2);
     }
 
+    function testGetPostAndComments() public {
+        SocialMedia.PostData memory post;
+        SocialMedia.PostData[] memory comments;
+
+        testCreateComment();
+        (post, comments) = socialMedia.getPostAndComments(0);
+
+        assertEq(keccak256(abi.encodePacked(post.postData)), keccak256(POST1));
+        assertEq(keccak256(abi.encodePacked(comments[0].postData)), keccak256(COMMENT1));
+    }
+
+    function testGetPostsFromAUser() public {
+        testCreatePost();
+        SocialMedia.PostData[] memory posts = socialMedia.getPostsFromAUser(USER1);
+
+        assertEq(keccak256(abi.encodePacked(posts[0].postData)), keccak256(POST1));
+    }
+
     // Write tests for events?
 }
