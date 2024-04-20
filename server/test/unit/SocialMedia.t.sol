@@ -5,7 +5,7 @@ import {Test, console} from "forge-std/Test.sol";
 import {DeploySocialMedia} from "../../script/DeploySocialMedia.s.sol";
 import {SocialMedia} from "../../src/SocialMedia.sol";
 
-contract DeploySocialMediaTest is Test {
+contract SocialMediaTests is Test {
     DeploySocialMedia public deployer;
     SocialMedia public socialMedia;
     SocialMedia.UserDetails public user;
@@ -171,4 +171,6 @@ contract DeploySocialMediaTest is Test {
 
         assertEq(socialMedia.getPostCount(), 2);
     }
+
+    // Write tests for events?
 }
